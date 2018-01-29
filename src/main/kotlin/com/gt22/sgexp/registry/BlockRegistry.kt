@@ -1,6 +1,7 @@
 package com.gt22.sgexp.registry
 
 import com.gt22.sgexp.SGExp
+import com.gt22.sgexp.block.GateAccelerator
 import com.gt22.sgexp.model.IModelProvider
 import net.minecraft.block.Block
 import net.minecraft.item.ItemBlock
@@ -8,6 +9,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry
 
 object BlockRegistry {
 
+    lateinit var gateAccelerator: GateAccelerator
 
     fun reg() {
         val r = GameRegistry.findRegistry(Block::class.java)
