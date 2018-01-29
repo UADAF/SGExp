@@ -1,5 +1,7 @@
 package com.gt22.sgexp.proxy
 
+import com.gt22.sgexp.SGExp
+import com.gt22.sgexp.gui.GuiHandler
 import com.gt22.sgexp.integration.OCIntegration
 import com.gt22.sgexp.model.IModelProvider
 import com.gt22.sgexp.registry.BlockRegistry
@@ -8,6 +10,7 @@ import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
+import net.minecraftforge.fml.common.network.NetworkRegistry
 
 open class CommonProxy {
 
@@ -18,7 +21,7 @@ open class CommonProxy {
     }
 
     open fun init(e: FMLInitializationEvent) {
-
+        NetworkRegistry.INSTANCE.registerGuiHandler(SGExp, GuiHandler)
     }
 
     open fun postInit(e: FMLPostInitializationEvent) {

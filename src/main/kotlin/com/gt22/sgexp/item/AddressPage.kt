@@ -1,52 +1,57 @@
 package com.gt22.sgexp.item
 
 import com.gt22.sgexp.R
+import com.gt22.sgexp.SGExp
+import com.gt22.sgexp.gui.GuiHandler
+import com.gt22.sgexp.gui.client.AddressPageGui
 import gcewing.sg.BaseOrientation
 import gcewing.sg.DHDTE
 import gcewing.sg.SGBaseTE
 import gcewing.sg.SGCraft
 import net.minecraft.block.properties.IProperty
 import net.minecraft.block.state.IBlockState
+import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.*
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.TextComponentString
 import net.minecraft.world.World
-import net.minecraft.world.gen.ChunkProviderServer
+
+fun BlockPos.MutableBlockPos.madd(x: Int = 0, y: Int = 0, z: Int = 0): BlockPos.MutableBlockPos {
+    setPos(getX() + x, getY() + y, getZ() + z)
+    return this
+}
 
 class AddressPage : ItemBase("addressPage") {
-
     init {
         setMaxStackSize(1)
     }
 
-    override fun onItemRightClick(itemStackIn: ItemStack, worldIn: World, playerIn: EntityPlayer, hand: EnumHand): ActionResult<ItemStack?> {
-        val nether: World? = worldIn.minecraftServer?.worldServerForDimension(-1)
-        if(!worldIn.isRemote) {
-            if (nether != null) {
-                val gate = buildGate(nether)
-                if (gate != null) {
-                    playerIn.addChatComponentMessage(TextComponentString(gate.getHomeAddress()))
-                } else {
-                    playerIn.addChatComponentMessage(TextComponentString("Something wrong with gate"))
-                }
-            } else {
-                playerIn.addChatComponentMessage(TextComponentString("Unable to find nether"))
-            }
+    override fun onItemRightClick(stack: ItemStack, world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack?> {
+        if(!world.isRemote && stack.tagCompound?.hasKey("address") != true) {
+            initAddress(stack, world, player)
         }
-        if(!playerIn.capabilities.isCreativeMode) {
-            itemStackIn.stackSize = 0
-        }
-        return ActionResult(EnumActionResult.SUCCESS, itemStackIn)
+        if(world.isRemote) Minecraft.getMinecraft().displayGuiScreen(AddressPageGui(stack))
+        return ActionResult(EnumActionResult.SUCCESS, stack)
     }
 
-
-
-    fun BlockPos.MutableBlockPos.madd(x: Int = 0, y: Int = 0, z: Int = 0): BlockPos.MutableBlockPos {
-        setPos(getX() + x, getY() + y, getZ() + z)
-        return this
+    private fun initAddress(stack: ItemStack, world: World, player: EntityPlayer) {
+        val nether: World? = world.minecraftServer?.worldServerForDimension(-1)
+        if (nether != null) {
+            val gate = buildGate(nether)
+            if (gate != null) {
+                val addr = gate.getHomeAddress()
+                player.addChatComponentMessage(TextComponentString(addr))
+                stack.tagCompound = NBTTagCompound().apply { setString("address", addr) }
+            } else {
+                player.addChatComponentMessage(TextComponentString("Something wrong with gate"))
+            }
+        } else {
+            player.addChatComponentMessage(TextComponentString("Unable to find nether"))
+        }
     }
 
     private fun place(curBlock: BlockPos.MutableBlockPos, world: World, vararg row: IBlockState?) {
