@@ -51,6 +51,7 @@ repositories {
 }
 
 dependencies {
+    compile "li.cil.oc:OpenComputers:MC1.10.2-1.7.1.150"
     compile "codechicken:CodeChickenLib:1.10.2-2.5.9.320:deobf"
     compile group: "net.shadowfacts", name: "Forgelin", version: "1.6.0"
 }

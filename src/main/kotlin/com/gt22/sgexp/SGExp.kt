@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 
-@Mod(modid = R.MODID, name = R.NAME, version = R.VERSION, modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter", modLanguage = "kotlin", dependencies = "required-after:forgelin;")
+@Mod(modid = R.MODID, name = R.NAME, version = R.VERSION, modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter", modLanguage = "kotlin", dependencies = "required-after:forgelin; required-after:sgcraft; after:OpenComputers")
 object SGExp {
 
     @SidedProxy(clientSide = "com.gt22.sgexp.proxy.ClientProxy", serverSide = "com.gt22.sgexp.proxy.CommonProxy")
