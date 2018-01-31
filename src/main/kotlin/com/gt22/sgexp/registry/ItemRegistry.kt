@@ -5,6 +5,8 @@ import com.gt22.sgexp.SGExp
 import com.gt22.sgexp.block.GateAccelerator
 import com.gt22.sgexp.block.ItemBlockBase
 import com.gt22.sgexp.item.AddressPage
+import com.gt22.sgexp.item.ChestPlacer
+import com.gt22.sgexp.item.ItemBase
 import com.gt22.sgexp.model.IModelProvider
 import net.minecraft.block.Block
 import net.minecraft.item.Item
@@ -16,7 +18,11 @@ import java.lang.reflect.Field
 object ItemRegistry {
 
     lateinit var addressPage: AddressPage
+    lateinit var chestPlacer: ChestPlacer
+
     lateinit var gateAccelerator: ItemBlockBase
+    lateinit var nqaReactor: ItemBlockBase
+
     fun reg() {
         val r = GameRegistry.findRegistry(Item::class.java)
         ItemRegistry::class.java.declaredFields.filter { Item::class.java.isAssignableFrom(it.type) }.forEach {
@@ -30,6 +36,8 @@ object ItemRegistry {
 
     private fun regItem(field: Field, r: IForgeRegistry<Item>) {
         val i: Item = field.type.newInstance() as Item
+        (i as? ItemBase)?.setName(field.name)
+
         r.register(i)
         field.set(this, i)
         if (i is IModelProvider) SGExp.proxy.setupModel(i)

@@ -25,7 +25,7 @@ fun BlockPos.MutableBlockPos.madd(x: Int = 0, y: Int = 0, z: Int = 0): BlockPos.
     return this
 }
 
-class AddressPage : ItemBase("addressPage") {
+class AddressPage : ItemBase() {
     init {
         setMaxStackSize(1)
     }

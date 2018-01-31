@@ -9,12 +9,15 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
 
-open class ItemBase(name: String) : Item(), IModelProvider {
+open class ItemBase : Item(), IModelProvider {
 
     init {
+        creativeTab = R.TAB
+    }
+
+    fun setName(name: String) {
         unlocalizedName = name
         registryName = R.rl(name)
-        creativeTab = R.TAB
     }
 
     @SideOnly(Side.CLIENT)

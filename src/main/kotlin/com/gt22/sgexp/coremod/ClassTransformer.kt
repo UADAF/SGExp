@@ -9,12 +9,13 @@ import jdk.internal.org.objectweb.asm.tree.*
 import net.minecraft.launchwrapper.IClassTransformer
 
 class ClassTransformer : IClassTransformer {
-    override fun transform(name: String, transformedName: String, basicClass: ByteArray): ByteArray {
-        return if(name == "gcewing.sg.SGBaseTE")
-            patchSGBase(name, basicClass)
-        else if(name == "gcewing.sg.SGInterfaceTE")
-            patchSGInterface(name, basicClass)
-        else basicClass
+    override fun transform(name: String, transformedName: String, basicClass: ByteArray?): ByteArray? {
+        if(basicClass == null) throw NullPointerException("$name:$transformedName")
+        return when (name) {
+            "gcewing.sg.SGBaseTE" -> patchSGBase(name, basicClass)
+            "gcewing.sg.SGInterfaceTE" -> patchSGInterface(name, basicClass)
+            else -> basicClass
+        }
     }
 
     private fun patchSGBase(name: String, data: ByteArray): ByteArray {

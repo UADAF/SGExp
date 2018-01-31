@@ -10,13 +10,16 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 
 
-open class BlockBase(mat: Material, name: String) : Block(mat), IModelProvider {
+open class BlockBase(mat: Material) : Block(mat), IModelProvider {
 
     init {
-        registryName = R.rl(name)
-        unlocalizedName = name
         @Suppress("LeakingThis")
         setCreativeTab(R.TAB)
+    }
+
+    internal fun setName(name: String) {
+        registryName = R.rl(name)
+        unlocalizedName = name
     }
 
     @SideOnly(Side.CLIENT)

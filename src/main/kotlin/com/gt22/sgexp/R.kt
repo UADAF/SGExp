@@ -11,7 +11,7 @@ object R {
     const  val MODID = "sgexploration"
     const val NAME = "Stargate Exploration"
     const val MC_VER = "1.10.2"
-    const val MOD_VER = "1.0"
+    const val MOD_VER = "1.1"
     const val VERSION = "mc-${MC_VER}_$MOD_VER"
     val TAB: CreativeTabs = SimpleCreativeTab(MODID, "sgexploration:addressPage")
 
